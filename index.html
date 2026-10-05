@@ -14,6 +14,8 @@ footer{background:#0b1220;color:#b9c5d7;padding:35px 18px;margin-top:40px}footer
 .toast{position:fixed;right:18px;bottom:18px;background:#101828;color:white;padding:13px 16px;border-radius:10px;display:none}
 @media(max-width:800px){.links{display:none}.grid{grid-template-columns:repeat(2,1fr)}.news{grid-template-columns:1fr}}
 @media(max-width:500px){.grid{grid-template-columns:1fr 1fr}.hero{padding:30px 22px}.hero h1{font-size:42px}}
+
+.auth-status{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}.user-pill{background:#eef4ff;padding:8px 10px;border-radius:10px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.auth-modal{position:fixed;inset:0;background:#10182899;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.auth-box{width:min(430px,100%);background:#fff;border-radius:20px;padding:24px;box-shadow:0 20px 60px #0003}.auth-box h2{margin-top:0}.auth-box input{width:100%;padding:12px;margin:7px 0;border:1px solid #d0d5dd;border-radius:10px}.auth-actions{display:flex;gap:10px;margin-top:10px}.auth-actions button{flex:1}.secondary{background:#eef2f6;color:#101828}.close{float:right;border:0;background:transparent;font-size:24px;cursor:pointer}.auth-msg{min-height:20px;margin-top:10px;font-size:14px;color:#475467}
 </style>
 </head>
 <body>
@@ -21,7 +23,7 @@ footer{background:#0b1220;color:#b9c5d7;padding:35px 18px;margin-top:40px}footer
 <a class="logo" href="#home">Flummox<b>_ke</b> 🇰🇪</a>
 <input id="search" class="search" placeholder="Search Flummox_ke..." oninput="searchCards(this.value)">
 <div class="links"><a href="#news">News</a><a href="#games">Games</a><a href="#market">Market</a><a href="#jobs">Jobs</a></div>
-<button class="btn" onclick="toast('Accounts will be connected in the next stage.')">Sign in</button>
+<div id="authStatus"><button class="btn" onclick="openAuth()">Sign in</button></div>
 </nav></header>
 <main id="home">
 <section class="hero"><small>THE KENYAN DIGITAL HUB 🇰🇪</small><h1>One place.<br>Many possibilities.</h1><p>News, entertainment, music, games, jobs, marketplace, education, services and community — all under Flummox_ke.</p><button class="btn" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">Explore Flummox_ke</button></section>
@@ -59,9 +61,66 @@ footer{background:#0b1220;color:#b9c5d7;padding:35px 18px;margin-top:40px}footer
 <section id="community"><div class="cta"><h2>👥 Community</h2><p>Next stage: real accounts, profiles, posts, comments and moderation.</p></div></section>
 </main>
 <footer><div class="foot"><h3>Flummox_ke 🇰🇪</h3><p>A Kenyan multi-purpose digital platform.</p><p>© 2026 Flummox_ke</p></div></footer>
+<div id="authModal" class="auth-modal" onclick="if(event.target===this)closeAuth()">
+  <div class="auth-box">
+    <button class="close" onclick="closeAuth()">×</button>
+    <h2 id="authTitle">Sign in to Flummox_ke</h2>
+    <p id="authIntro">Use your email and password to access your Flummox_ke account.</p>
+    <input id="authEmail" type="email" placeholder="Email address" autocomplete="email">
+    <input id="authPassword" type="password" placeholder="Password" autocomplete="current-password">
+    <div class="auth-actions">
+      <button class="btn" id="signInBtn" onclick="signIn()">Sign in</button>
+      <button class="btn secondary" id="signUpBtn" onclick="signUp()">Create account</button>
+    </div>
+    <p class="auth-msg" id="authMsg"></p>
+  </div>
+</div>
 <div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-function toast(m){let x=document.getElementById('toast');x.textContent=m;x.style.display='block';clearTimeout(window.t);window.t=setTimeout(()=>x.style.display='none',2500)}
+const SUPABASE_URL = 'https://iwmkwpsddthawznfwdjv.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_jtsqX_oBjtFEIZOZVWn1sA_Pwh_FwMO';
+const { createClient } = window.supabase;
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+function toast(m){{let x=document.getElementById('toast');x.textContent=m;x.style.display='block';clearTimeout(window.t);window.t=setTimeout(()=>x.style.display='none',2500)}
+function openAuth(){document.getElementById('authModal').style.display='flex';document.getElementById('authMsg').textContent=''}
+function closeAuth(){document.getElementById('authModal').style.display='none'}
+function authMessage(m){document.getElementById('authMsg').textContent=m}
+async function signUp(){
+  const email=document.getElementById('authEmail').value.trim();
+  const password=document.getElementById('authPassword').value;
+  if(!email||!password){authMessage('Enter your email and password.');return}
+  if(password.length<6){authMessage('Password must be at least 6 characters.');return}
+  authMessage('Creating your account...');
+  const {data,error}=await supabase.auth.signUp({email,password});
+  if(error){authMessage(error.message);return}
+  if(data.session){authMessage('Account created and signed in.');setTimeout(closeAuth,700)}
+  else authMessage('Account created. Check your email to confirm your account, then sign in.');
+}
+async function signIn(){
+  const email=document.getElementById('authEmail').value.trim();
+  const password=document.getElementById('authPassword').value;
+  if(!email||!password){authMessage('Enter your email and password.');return}
+  authMessage('Signing in...');
+  const {error}=await supabase.auth.signInWithPassword({email,password});
+  if(error){authMessage(error.message);return}
+  closeAuth();toast('Welcome back! 🎉');
+}
+async function signOut(){await supabase.auth.signOut();toast('You have signed out.');renderAuth()}
+function renderAuth(){
+  const wrap=document.getElementById('authStatus');
+  supabase.auth.getSession().then(({data})=>{
+    const user=data.session?.user;
+    wrap.innerHTML=user
+      ? '<span class="user-pill">👤 '+escapeHtml(user.email||'User')+'</span><button class="btn" onclick="signOut()">Sign out</button>'
+      : '<button class="btn" onclick="openAuth()">Sign in</button>';
+  });
+}
+function escapeHtml(v){return v.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+supabase.auth.onAuthStateChange(()=>renderAuth());
+renderAuth();
+
 function quiz(){let a=prompt('What is the capital of Kenya?');if(a!==null)toast(a.trim().toLowerCase()==='nairobi'?'Correct! 🎉':'The answer is Nairobi.')}
 function numberGame(){let n=Math.floor(Math.random()*10)+1,g=prompt('Guess a number from 1 to 10');if(g!==null)toast(Number(g)===n?'Correct! 🎉':'The number was '+n)}
 function rps(){let a=prompt('Rock, Paper or Scissors?');if(!a)return;let c=['rock','paper','scissors'][Math.floor(Math.random()*3)],u=a.toLowerCase().trim();if(!['rock','paper','scissors'].includes(u)){toast('Type Rock, Paper or Scissors');return}let w=(u==='rock'&&c==='scissors')||(u==='paper'&&c==='rock')||(u==='scissors'&&c==='paper');toast('Computer chose '+c+'. '+(u===c?'Draw!':w?'You win! 🎉':'Computer wins!'))}
