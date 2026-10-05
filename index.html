@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flummox_ke 🇰🇪</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#101828}a{text-decoration:none;color:inherit}
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid #e5e7eb;z-index:5}.nav{max-width:1150px;margin:auto;padding:14px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}.logo{font-size:24px;font-weight:900}.logo b{color:#0866ff}.search{flex:1;min-width:180px;padding:11px;border:1px solid #ddd;border-radius:10px}.links{display:flex;gap:10px}.links a{padding:8px;font-weight:700;font-size:14px}.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:800;background:#0866ff;color:white}
+main{max-width:1150px;margin:auto;padding:25px 18px}.hero{padding:45px 30px;border-radius:24px;background:linear-gradient(135deg,#071b3b,#0866ff);color:white}.hero h1{font-size:clamp(38px,6vw,64px);line-height:1;margin:10px 0}.hero p{max-width:650px;font-size:18px;color:#dbe8ff}.hero .btn{background:white;color:#0755c9;margin-top:12px}
+section{margin:35px 0}.head{display:flex;justify-content:space-between;align-items:end;margin-bottom:15px}.head p{color:#667085}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:white;border:1px solid #e5e7eb;border-radius:16px;padding:20px;box-shadow:0 5px 18px #1018280b}.icon{font-size:34px}.card h3{margin:10px 0 5px}.card p{color:#667085;font-size:14px}.games{background:#0d1729;color:white;padding:25px;border-radius:22px}.games .card{background:#17233a;border-color:#293a58}.games .card p{color:#b8c4d7}.play{width:100%;border:0;border-radius:9px;padding:9px;font-weight:900}
+.news{display:grid;grid-template-columns:2fr 1fr 1fr;gap:15px}.news .card{min-height:130px}.cta{background:#eaf2ff;border:1px solid #cfe0ff;border-radius:18px;padding:25px}
+footer{background:#0b1220;color:#b9c5d7;padding:35px 18px;margin-top:40px}footer .foot{max-width:1150px;margin:auto}footer h3{color:white}
+.toast{position:fixed;right:18px;bottom:18px;background:#101828;color:white;padding:13px 16px;border-radius:10px;display:none}
+@media(max-width:800px){.links{display:none}.grid{grid-template-columns:repeat(2,1fr)}.news{grid-template-columns:1fr}}
+@media(max-width:500px){.grid{grid-template-columns:1fr 1fr}.hero{padding:30px 22px}.hero h1{font-size:42px}}
+</style>
+</head>
+<body>
+<header><nav class="nav">
+<a class="logo" href="#home">Flummox<b>_ke</b> 🇰🇪</a>
+<input id="search" class="search" placeholder="Search Flummox_ke..." oninput="searchCards(this.value)">
+<div class="links"><a href="#news">News</a><a href="#games">Games</a><a href="#market">Market</a><a href="#jobs">Jobs</a></div>
+<button class="btn" onclick="toast('Accounts will be connected in the next stage.')">Sign in</button>
+</nav></header>
+<main id="home">
+<section class="hero"><small>THE KENYAN DIGITAL HUB 🇰🇪</small><h1>One place.<br>Many possibilities.</h1><p>News, entertainment, music, games, jobs, marketplace, education, services and community — all under Flummox_ke.</p><button class="btn" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">Explore Flummox_ke</button></section>
+
+<section id="explore"><div class="head"><div><h2>Explore</h2><p>Choose what you want to do.</p></div></div>
+<div class="grid">
+<a class="card" href="#news"><div class="icon">📰</div><h3>News & Updates</h3><p>Kenyan stories and useful updates.</p></a>
+<a class="card" href="#ent"><div class="icon">🎬</div><h3>Entertainment</h3><p>Culture, comedy and creators.</p></a>
+<a class="card" href="#music"><div class="icon">🎵</div><h3>Music</h3><p>Artists, releases and music content.</p></a>
+<a class="card" href="#games"><div class="icon">🎮</div><h3>Games</h3><p>Play games and chase high scores.</p></a>
+<a class="card" href="#jobs"><div class="icon">💼</div><h3>Jobs</h3><p>Jobs, gigs and opportunities.</p></a>
+<a class="card" href="#market"><div class="icon">🛍️</div><h3>Marketplace</h3><p>Buy, sell and discover services.</p></a>
+<a class="card" href="#education"><div class="icon">📚</div><h3>Education</h3><p>Learning and practical skills.</p></a>
+<a class="card" href="#community"><div class="icon">👥</div><h3>Community</h3><p>Connect and share with others.</p></a>
+</div></section>
+
+<section id="games" class="games"><div class="head"><div><h2>🎮 Games</h2><p>Playable mini-games are already included.</p></div></div>
+<div class="grid">
+<div class="card"><div class="icon">🧠</div><h3>Kenya Quiz</h3><p>Test your knowledge.</p><button class="play" onclick="quiz()">PLAY</button></div>
+<div class="card"><div class="icon">✊</div><h3>Rock Paper Scissors</h3><p>Beat the computer.</p><button class="play" onclick="rps()">PLAY</button></div>
+<div class="card"><div class="icon">🎯</div><h3>Number Challenge</h3><p>Guess 1 to 10.</p><button class="play" onclick="numberGame()">PLAY</button></div>
+<div class="card"><div class="icon">⚽</div><h3>Football Challenge</h3><p>More games can be added here.</p><button class="play" onclick="toast('Football game is planned for the next version.')">COMING</button></div>
+</div></section>
+
+<section id="news"><div class="head"><div><h2>📰 News & Updates</h2><p>Foundation for a future live content feed.</p></div></div><div class="news">
+<div class="card"><h3>Welcome to Flummox_ke</h3><p>This is the first working website version. Real user content comes after the backend stage.</p></div>
+<div class="card"><h3>🇰🇪 Kenya</h3><p>Space for local updates.</p></div><div class="card"><h3>🔥 Trending</h3><p>Space for popular content.</p></div></div></section>
+
+<section id="jobs"><div class="head"><div><h2>💼 Jobs & Opportunities</h2><p>A future job and opportunity board.</p></div></div><div class="grid"><div class="card"><div class="icon">💻</div><h3>Online Work</h3><p>Remote and freelance opportunities.</p></div><div class="card"><div class="icon">🎓</div><h3>Internships</h3><p>Internship opportunities.</p></div><div class="card"><div class="icon">🏢</div><h3>Jobs</h3><p>Full-time and part-time roles.</p></div><div class="card"><div class="icon">🚀</div><h3>Business</h3><p>Entrepreneurship opportunities.</p></div></div></section>
+
+<section id="market"><div class="head"><div><h2>🛍️ Marketplace</h2><p>Buy, sell and discover services.</p></div></div><div class="grid"><div class="card"><div class="icon">📱</div><h3>Products</h3><p>Electronics, fashion and more.</p></div><div class="card"><div class="icon">🛠️</div><h3>Services</h3><p>Find local service providers.</p></div><div class="card"><div class="icon">🏠</div><h3>Property</h3><p>Future property listings.</p></div><div class="card"><div class="icon">🚗</div><h3>Vehicles</h3><p>Future vehicle listings.</p></div></div></section>
+
+<section id="education"><div class="head"><div><h2>📚 Education</h2><p>Learn and build useful skills.</p></div></div><div class="grid"><div class="card"><div class="icon">🧑‍💻</div><h3>Technology</h3><p>Programming and digital skills.</p></div><div class="card"><div class="icon">📖</div><h3>Study</h3><p>Revision and study resources.</p></div><div class="card"><div class="icon">🎯</div><h3>Skills</h3><p>Practical skills for work.</p></div><div class="card"><div class="icon">🏆</div><h3>Challenges</h3><p>Learning challenges and quizzes.</p></div></div></section>
+
+<section id="community"><div class="cta"><h2>👥 Community</h2><p>Next stage: real accounts, profiles, posts, comments and moderation.</p></div></section>
+</main>
+<footer><div class="foot"><h3>Flummox_ke 🇰🇪</h3><p>A Kenyan multi-purpose digital platform.</p><p>© 2026 Flummox_ke</p></div></footer>
+<div id="toast" class="toast"></div>
+<script>
+function toast(m){let x=document.getElementById('toast');x.textContent=m;x.style.display='block';clearTimeout(window.t);window.t=setTimeout(()=>x.style.display='none',2500)}
+function quiz(){let a=prompt('What is the capital of Kenya?');if(a!==null)toast(a.trim().toLowerCase()==='nairobi'?'Correct! 🎉':'The answer is Nairobi.')}
+function numberGame(){let n=Math.floor(Math.random()*10)+1,g=prompt('Guess a number from 1 to 10');if(g!==null)toast(Number(g)===n?'Correct! 🎉':'The number was '+n)}
+function rps(){let a=prompt('Rock, Paper or Scissors?');if(!a)return;let c=['rock','paper','scissors'][Math.floor(Math.random()*3)],u=a.toLowerCase().trim();if(!['rock','paper','scissors'].includes(u)){toast('Type Rock, Paper or Scissors');return}let w=(u==='rock'&&c==='scissors')||(u==='paper'&&c==='rock')||(u==='scissors'&&c==='paper');toast('Computer chose '+c+'. '+(u===c?'Draw!':w?'You win! 🎉':'Computer wins!'))}
+function searchCards(q){q=q.toLowerCase();document.querySelectorAll('.card').forEach(c=>c.style.display=!q||c.innerText.toLowerCase().includes(q)?'':'none')}
+</script>
+</body></html>
